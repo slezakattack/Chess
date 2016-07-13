@@ -1,0 +1,25 @@
+.board {
+	width: 100%;
+	height: 100%;
+}
+
+.tiles {
+	margin: 0 auto;
+	width: 512px;
+	padding: 0;
+	position: relative;
+}
+
+.tile {
+	position: absolute;
+	width: 64px;
+	height: 64px;
+	display: inline-block;
+}
+.tile:nth-child(odd) {
+	background: black;
+}
+
+.tile:nth-child(even) {
+	background: red;
+}
