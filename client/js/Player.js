@@ -2,6 +2,7 @@ var Player = Backbone.View.extend({
 	className: "player",
 	initialize: function(options) {
 		this.playerConfig = options.player;
+		this.myPieces = options.my_pieces;
 		this.pieces = [];
 		this.render();
 	},
@@ -16,5 +17,7 @@ var Player = Backbone.View.extend({
 				return piece;
 			}
 		);
+		
+		this.$el.toggleClass("my-pieces", this.myPieces);
 	}
 });

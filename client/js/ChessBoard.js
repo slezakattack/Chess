@@ -37,5 +37,9 @@ var ChessBoard = Backbone.View.extend({
 	
 	drawBoard: function(boardConfig) {
 	
+	},
+	
+	setTurn: function(yourTurn) {
+		this.$el.toggleClass("your-turn", yourTurn);
 	}
 });

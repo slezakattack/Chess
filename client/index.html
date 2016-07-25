@@ -182,9 +182,10 @@
 				}
 			};
 			
-			var player1 = new Player({player: defaultBoard.player1});
-			var player2 = new Player({player: defaultBoard.player2});
+			var player1 = new Player({player: defaultBoard.player1, my_pieces: true});
+			var player2 = new Player({player: defaultBoard.player2, my_pieces: false});
 			var board = new ChessBoard({player1: player1, player2: player2, el: ".board"});
+			board.setTurn(defaultBoard.your_turn);
 		</script>
 	</body>
 </html>

@@ -1,5 +1,6 @@
 var Piece = Backbone.View.extend({
 	className: "piece",
+	events: [],
 	initialize: function(options) {
 		this.name = options.name;
 		this.position = options.position;
