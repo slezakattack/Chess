@@ -1,24 +1,35 @@
 var Piece = Backbone.View.extend({
 	className: "piece",
-	events: [],
+	events: {
+		"click": "toggleSelect"
+	},
 	initialize: function(options) {
-		this.name = options.name;
-		this.position = options.position;
+		var piece = options.piece
+		this.name = piece.id;
+		this.myPiece = options.my_piece;
+		this.position = piece.position;
+		this.selected = false;
 		this.render(options.is_white);
 	},
 	
 	render: function(is_white) {
 		this.$el
-			.addClass(this.name)
-			.toggleClass("white", is_white);
-			
-		this.setPosition(this.position);
+			.addClass("piece")
+			.toggleClass("white", is_white)
+			.attr("data-name", this.name);
 	},
 	
-	setPosition(position) {
-		this.position = position;
-		var x = parseInt(position[0]);
-		var y = parseInt(position[1]);
-		this.$el.offset({top: y * 64, left: x * 64});
+	toggleSelect: function() {
+		if (!this.myPiece) {
+			return;
+		}
+		this.selected = !this.selected;
+		this.$el.toggleClass("selected", this.selected);
+		this.trigger("selected");
+	},
+	
+	removeSelected: function() {
+		this.selected = false;
+		this.$el.removeClass("selected", this.selected);
 	}
 });

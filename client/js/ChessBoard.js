@@ -1,18 +1,14 @@
 var ChessBoard = Backbone.View.extend({
 	className: "board",
-	template: _.template("<div class=\"inner-board\"><div class=\"tiles\"></div><div class=\"pieces\"></div></div>"),
 	
 	initialize: function(options) {
-		this.player1 = options.player1;
-		this.player2 = options.player2;
+		this.selectedPiece = null;
 		this.render();
 	},
 	
 	render: function() {
 		this.$el.html(_.template($("#chessboard-template").html()), {});
 		this.renderTiles();
-		this.$('.pieces').append(this.player1.$el);
-		this.$('.pieces').append(this.player2.$el);
 	},
 	
 	renderTiles: function() {
@@ -36,10 +32,47 @@ var ChessBoard = Backbone.View.extend({
 	},
 	
 	drawBoard: function(boardConfig) {
+		var player1 = this.drawPieces(boardConfig.player1, true);
+		var player2 = this.drawPieces(boardConfig.player2, false);
+		this.pieces = _.flatten(player1, player2);
+	},
 	
+	drawPieces: function(player, myPiece) {
+		return _.map(player.pieces,
+			function(piece) {
+				var piece = new Piece(
+					{
+						piece: piece,
+						is_white: player.is_white,
+						el: "#" + piece.position,
+						my_piece: myPiece
+					});
+				if (myPiece) {
+					piece.on("selected", this.onSelectPiece.bind(this, piece));
+				}
+			},
+			this);
+	},
+	
+	onSelectPiece: function(piece) {
+		if (this.selectedPiece !== null &&
+			this.selectedPiece !== piece) {
+			this.selectedPiece.removeSelected();
+		}
+		
+		this.selectedPiece = piece;
+		//this.board.determineMoves(piece)
 	},
 	
 	setTurn: function(yourTurn) {
 		this.$el.toggleClass("your-turn", yourTurn);
+	},
+	
+	setPlayers: function(player1, player2) {
+		this.player1 = player1;
+		this.player2 = player2;
+		this.$('.pieces').append(this.player1.$el);
+		this.$('.pieces').append(this.player2.$el);
+		this.player1.setBoard(this);
 	}
 });
