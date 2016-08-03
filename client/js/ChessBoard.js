@@ -50,18 +50,26 @@ var ChessBoard = Backbone.View.extend({
 				if (myPiece) {
 					piece.on("selected", this.onSelectPiece.bind(this, piece));
 				}
+				return piece;
 			},
 			this);
 	},
 	
 	onSelectPiece: function(piece) {
+		$(".tile.available").removeClass("available");
+		
 		if (this.selectedPiece !== null &&
 			this.selectedPiece !== piece) {
 			this.selectedPiece.removeSelected();
 		}
 		
-		this.selectedPiece = piece;
-		//this.board.determineMoves(piece)
+		if (this.selectedPiece !== piece) {
+			this.selectedPiece = piece;
+			Rules.checkLegalMoves(piece, this.pieces);
+			return;
+		}
+		
+		this.selectedPiece = null;
 	},
 	
 	setTurn: function(yourTurn) {
