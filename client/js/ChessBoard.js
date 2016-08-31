@@ -34,7 +34,17 @@ var ChessBoard = Backbone.View.extend({
 	drawBoard: function(boardConfig) {
 		var player1 = this.drawPieces(boardConfig.player1, true);
 		var player2 = this.drawPieces(boardConfig.player2, false);
-		this.pieces = _.flatten(player1, player2);
+		this.pieces = [];
+		_.each(player1,
+			function(piece) {
+				this.pieces[piece.position] = piece;
+			},
+			this);
+		_.each(player2,
+			function(piece) {
+				this.pieces[piece.position] = piece;
+			},
+			this);
 	},
 	
 	drawPieces: function(player, myPiece) {
